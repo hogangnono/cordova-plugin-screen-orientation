@@ -103,16 +103,14 @@
             if (value != nil || value16 != nil) {
                 _isLocked = true;
                 if (@available(iOS 16.0, *)) {
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        NSArray *array = [[[UIApplication sharedApplication] connectedScenes] allObjects];
-                        UIWindowScene *scene = (UIWindowScene *)array[0];
-                        [UIViewController attemptRotationToDeviceOrientation];
-                        
-                        [scene requestGeometryUpdateWithPreferences:(UIWindowSceneGeometryPreferencesIOS*)value16 errorHandler:^(NSError * _Nonnull error) {
-                            NSLog(@"Failed to change orientation");
-                            // do nothing
-                        }];
-                    });
+                    NSArray *array = [[[UIApplication sharedApplication] connectedScenes] allObjects];
+                    UIWindowScene *scene = (UIWindowScene *)array[0];
+                    [UIViewController attemptRotationToDeviceOrientation];
+                    
+                    [scene requestGeometryUpdateWithPreferences:(UIWindowSceneGeometryPreferencesIOS*)value16 errorHandler:^(NSError * _Nonnull error) {
+                        NSLog(@"Failed to change orientation");
+                        // do nothing
+                    }];
                 } else {
                     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
                 }
